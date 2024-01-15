@@ -20,7 +20,7 @@
         <td id="favorite_buttons_<%= book.id %>">
           <%= render "favorites/btn", book: book, remote: true, class:"favorite-btn" %>
         </td>
-        <td>コメント数:<%= book.book_comments.count %></td>
+        <td id="comment_counter"><%= render "book_comments/counter", book: book, remote: true %></td>
       </tr>
     <% end %>
   </tbody>

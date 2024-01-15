@@ -18,46 +18,20 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
-          <% if @book.favorited_by?(current_user) %>
-            <td>
-              <%= link_to book_favorite_path(@book), method: :delete do %>
-                ♥<%= @book.favorites.count %>
-              <% end %>
-            </td>
-              <% else %>
-            <td>
-              <%= link_to book_favorite_path(@book.id), method: :post do %>
-                ♡<%= @book.favorites.count %>
-              <% end %>
-            </td>
-          <% end %>
-          <td>コメント数:<%= @book.book_comments.count %></td>
+          <td id="favorite_buttons_<%= @book.id %>">
+            <%= render "favorites/btn", book: @book, remote: true, class:"favorite-btn" %>
+          </td>
+          <td id="comment_counter"><%= render "book_comments/counter", book: @book, remote: true %></td>
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
           <% end %>
         </tr>
       </table>
-      <table class='table'>
-      	<tbody>
-      	  <% @book.book_comments.each do |book_comment| %>
-      		<tr>
-      			<td>
-      			  <%= link_to user_path(book_comment.user) do %>
-        			  <%= image_tag book_comment.user.get_profile_image, size:"50x50" %><br>
-        			  <%= book_comment.user.name %>
-      			  <% end %>
-      			</td>
-      			<td><%= book_comment.comment %></td>
-      			<td><%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete %></td>
-      		</tr>
-      		<% end %>
-      	</tbody>
-      </table>
-        <%= form_with model: [@book, @book_comment] do |f| %>
-          <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに", class: "w-100" %> <br>
-          <%= f.submit "送信",class: "btn btn-sm btn-info" %>
-        <% end %>
+      <div id="comment_index">
+        <%= render "book_comments/index", book: @book, remote: true  %>
+      </div>
+        <%= render "book_comments/form", book: @book, book_comment: @book_comment %>
     </div>
   </div>
 </div>
