@@ -21,6 +21,7 @@
           <%= render "favorites/btn", book: book, remote: true, class:"favorite-btn" %>
         </td>
         <td id="comment_counter"><%= render "book_comments/counter", book: book, remote: true %></td>
+        <td><%= render "books/static_rate", book: book %></td>
       </tr>
     <% end %>
   </tbody>
